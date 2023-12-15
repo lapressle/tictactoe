@@ -26,7 +26,7 @@ class GameRows
     instance_variables.each do |location|
       self_location = instance_variable_get(location)
       if self_location == row2.instance_variable_get(location) && self_location == row3.instance_variable_get(location)
-        true
+        return true
       end
     end
     false
