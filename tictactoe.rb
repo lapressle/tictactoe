@@ -15,18 +15,20 @@ class GameRows
   end
 
   def row_win?
-    left == middle && left == right
-    true
+    if left == middle && left == right
+      true
+    else
+      false
+    end
   end
 
   def column_win(row2, row3)
-    if left == row2.left && left == row3.left
-      true
-    elsif middle == row2.middle && middle == row3.middle
-      true
-    elsif right == row2.right && right == row3.right
-      true
+    row.instance_variables.each do |location|
+      if self.location == row2.instance_variable_get(location) && self.location == row3.instance_variable_get(location)
+        true
+      end
     end
+    false
   end
 
   def cross_win(row2, row3)
@@ -34,6 +36,8 @@ class GameRows
       true
     elsif right == row2.middle && right == row3.left
       true
+    else
+      false
     end
   end
 end
