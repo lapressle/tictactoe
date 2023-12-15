@@ -60,7 +60,12 @@ class TicTacToe
 
   def input(*args)
     print(*args)
-    gets.chomp
+    choice = gets.chomp.to_i
+    while choice.zero?
+      p 'Please put an integer'
+      choice = gets.chomp.to_i
+    end
+    choice
   end
 
   def check_winner(rows, player)
