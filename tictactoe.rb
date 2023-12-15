@@ -35,18 +35,33 @@ class TicTacToe
     end
   end
 
+  def input(*args)
+    print(*args)
+    gets.chomp
+  end
+
   def run_game
     while winner == false
       players.each do |player|
-        make_move(player)
+        make_move(input('Pick a spot'), player)
         puts declare_winner if winner != false
+        show_board
       end
-      puts test
     end
   end
 
   def declare_winner; end
-  def make_move; end
+
+  def make_move(choice, player)
+    rows.each do |row|
+      row.instance_variables.each do |location|
+        if row.instance_variable_get(location) == choice.to_s
+          row.instance_variable_set(location, player.player_icon)
+          break
+        end
+      end
+    end
+  end
 end
 
 # set up the players
@@ -60,12 +75,16 @@ class Players
 end
 
 puts 'Player One, enter your name: '
-player_one_name = gets.chomp
+# player_one_name = gets.chomp
+
+player_one_name = 'Lucas'
 
 player_one = Players.new(player_one_name, 'x')
 
 puts 'Player Two, enter your name: '
-player_two_name = gets.chomp
+# player_two_name = gets.chomp
+
+player_two_name = 'Computer'
 
 player_two = Players.new(player_two_name, 'o')
 
@@ -78,4 +97,8 @@ row_three = GameRows.new('7', '8', '9')
 rows = [row_one, row_two, row_three]
 
 game = TicTacToe.new(players, rows)
-p game.show_board
+
+game.show_board
+# game.make_move(game.input('Pick a spot'), player_one)
+game.make_move(1, player_one)
+game.show_board
