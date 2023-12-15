@@ -22,16 +22,17 @@ class GameRows
     end
   end
 
-  def column_win(row2, row3)
-    row.instance_variables.each do |location|
-      if self.location == row2.instance_variable_get(location) && self.location == row3.instance_variable_get(location)
+  def column_win?(row2, row3)
+    instance_variables.each do |location|
+      self_location = instance_variable_get(location)
+      if self_location == row2.instance_variable_get(location) && self_location == row3.instance_variable_get(location)
         true
       end
     end
     false
   end
 
-  def cross_win(row2, row3)
+  def cross_win?(row2, row3)
     if left == row2.middle && left == row3.right
       true
     elsif right == row2.middle && right == row3.left
@@ -72,22 +73,32 @@ class TicTacToe
     choice
   end
 
-  def check_winner(rows, player)
-    puts rows, player
+  def check_winner(rows)
+    rows.each do |row|
+      return true if row.row_win?
+    end
+    return true if rows[0].column_win?(rows[1], rows[2])
+    return unless rows[0].cross_win?(rows[1], rows[2])
+
+    true
   end
 
   def run_game
     while winner == false
       players.each do |player|
         make_move(input('Pick a spot: '), player)
-        check_winner(rows, player)
-        puts declare_winner if winner != false
+        winner = check_winner(rows)
+        return declare_winner(player) if winner == true
+
         show_board
       end
     end
   end
 
-  def declare_winner; end
+  def declare_winner(player)
+    p "Congrats #{player.player_name}!"
+    show_board
+  end
 
   def rows_array
     indexed_rows = []
@@ -153,6 +164,4 @@ game = TicTacToe.new(players, rows)
 
 game.show_board
 # game.make_move(game.input('Pick a spot'), player_one)
-game.make_move(1, player_one)
-game.show_board
-game.make_move(1, player_two)
+game.run_game
