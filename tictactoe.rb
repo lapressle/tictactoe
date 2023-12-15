@@ -84,14 +84,17 @@ class TicTacToe
   end
 
   def run_game
+    i = 0
     while winner == false
       players.each do |player|
         make_move(input('Pick a spot: '), player)
         winner = check_winner(rows)
         return declare_winner(player) if winner == true
 
-        show_board
+        i += 1
+        return 'Tie game!' if i == 9
       end
+
     end
   end
 
@@ -121,7 +124,7 @@ class TicTacToe
       row.instance_variables.each do |location|
         if row.instance_variable_get(location) == choice.to_s
           row.instance_variable_set(location, player.player_icon)
-          break
+          return show_board
         end
       end
     end
@@ -138,17 +141,17 @@ class Players
   end
 end
 
-puts 'Player One, enter your name: '
-# player_one_name = gets.chomp
+p 'Player One, enter your name: '
+player_one_name = gets.chomp
 
-player_one_name = 'Lucas'
+# player_one_name = 'Lucas'
 
 player_one = Players.new(player_one_name, 'x')
 
-puts 'Player Two, enter your name: '
-# player_two_name = gets.chomp
+p 'Player Two, enter your name: '
+player_two_name = gets.chomp
 
-player_two_name = 'Computer'
+# player_two_name = 'Computer'
 
 player_two = Players.new(player_two_name, 'o')
 
@@ -164,4 +167,4 @@ game = TicTacToe.new(players, rows)
 
 game.show_board
 # game.make_move(game.input('Pick a spot'), player_one)
-game.run_game
+p game.run_game
