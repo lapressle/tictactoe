@@ -26,8 +26,12 @@ class TicTacToe
   end
 
   def show_board
-    rows.each do |row|
-      puts "#{row.make_row} \n"
+    rows.each_with_index do |row, index|
+      if rows.size - 1 == index
+        puts "#{row.make_row} \n"
+      else
+        puts "#{row.make_row} \n--+---+--"
+      end
     end
   end
 
